@@ -41,14 +41,12 @@ namespace NetworkServerClient2
 
         private static Dictionary<string, Course> recipes = new Dictionary<string, Course>()
         {
-            {"fuflo" , new Course("Mix all ingredients end pour down on your head", new string[]{"dirt", "pepper" }) },
+            {"fuflo" , new Course("Mix all ingredients and pour down on your head", new string[]{"dirt", "pepper" }) },
             {"Fried egg", new Course("Crack the egg and pour into a preheated frying pan.\nAdd salt and cook for 5 minutes.",  new string[]{"egg","eggs","salt"}) }
         };
 
         
-         private static Dictionary<IPEndPoint, Client> logs = new Dictionary<IPEndPoint, Client>(); // log of clients
-
-
+        private static Dictionary<IPEndPoint, Client> logs = new Dictionary<IPEndPoint, Client>(); // log of clients
         private static int PlaceAvailable = 5;
         private static readonly object loglock = new object();
 

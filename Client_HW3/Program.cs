@@ -29,9 +29,18 @@ namespace Client_HW3
                 udpClient.Send(data, data.Length, serverEP);
 
                 string response = Encoding.UTF8.GetString(udpClient.Receive(ref serverEP));
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine(response);
-                Console.ForegroundColor= ConsoleColor.Gray;
+                if (response == "limit is out of range")
+                {
+                    Console.WriteLine("Too much queries per hour");
+                    //Thread.Sleep(); idk he wait for a hour , but server could update query counter a bit earlier 
+                    continue;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine(response);
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                }
             }
             udpClient.Close();
 
