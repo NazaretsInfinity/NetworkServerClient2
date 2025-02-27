@@ -15,7 +15,7 @@ namespace Client_HW3
         static void Main(string[] args)
         {
             string server = "127.0.0.1";
-            int port = 1202;
+            int port = 12000;
             UdpClient udpClient = new UdpClient();
             IPEndPoint serverEP = new IPEndPoint(IPAddress.Parse(server), port);
             Console.WriteLine("Welcome to our badass cookin' center");
