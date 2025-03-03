@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
 using System.Threading;
-
+using System.Threading.Tasks;
 
 namespace Server_HW4
 {
@@ -20,6 +20,7 @@ namespace Server_HW4
         TcpClient client = null;
         StreamReader sr = null; StreamWriter sw = null;
 
+        Task game;
         CancellationToken token = new CancellationToken();  
 
         public MainForm()
@@ -76,7 +77,7 @@ namespace Server_HW4
 
         private void SetRoundLabel(string text) => this.Invoke(new Action(() => RoundLabel.Text = text));
         private void SetScoreLabel(string text) => this.Invoke(new Action(() => ScoreLabel.Text = text));
-        private void ClientAcceptor(object a)
+        private async void ClientAcceptor(object a)
         {
 
             client = (a as TcpListener).AcceptTcpClient();
@@ -84,15 +85,14 @@ namespace Server_HW4
             sr = new StreamReader(stream); sw = new StreamWriter(stream) { AutoFlush = true };
             while (client.Connected)
             {      
-                if(stream.DataAvailable)
-                { 
+
                     string message = sr.ReadLine();
                 if (message == "Start")
                 {
-                    Thread game = new Thread(Game);
-                    game.Start(); game.Join();
+                        game = new Task(Game); game.Start();
+                        await game;
                 }
-                }
+                
             }
         }
 
