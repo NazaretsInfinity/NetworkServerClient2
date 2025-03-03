@@ -82,9 +82,13 @@ namespace Client_HW4
             ScissorButton.Enabled = PapperButton.Enabled = RockButton.Enabled = false;
         }
 
+        Random rnd = new Random();
         private void autobutton_Click(object sender, EventArgs e)
         {
-
+            List<Button> buttons = new List<Button>() { RockButton, PapperButton, ScissorButton};
+            Choice(buttons[rnd.Next(3)]);
         }
+
+        private void DrawButton_Click(object sender, EventArgs e) => sw.WriteLine("draw");
     }
 }

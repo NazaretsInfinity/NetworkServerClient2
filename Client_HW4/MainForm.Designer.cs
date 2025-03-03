@@ -40,6 +40,7 @@
             this.RockButton = new System.Windows.Forms.Button();
             this.ModeLabel = new System.Windows.Forms.Label();
             this.autobutton = new System.Windows.Forms.Button();
+            this.DrawButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ConnectButton
@@ -172,11 +173,23 @@
             this.autobutton.UseVisualStyleBackColor = true;
             this.autobutton.Click += new System.EventHandler(this.autobutton_Click);
             // 
+            // DrawButton
+            // 
+            this.DrawButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.DrawButton.Location = new System.Drawing.Point(397, 54);
+            this.DrawButton.Name = "DrawButton";
+            this.DrawButton.Size = new System.Drawing.Size(75, 23);
+            this.DrawButton.TabIndex = 29;
+            this.DrawButton.Text = "draw";
+            this.DrawButton.UseVisualStyleBackColor = true;
+            this.DrawButton.Click += new System.EventHandler(this.DrawButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(489, 261);
+            this.Controls.Add(this.DrawButton);
             this.Controls.Add(this.autobutton);
             this.Controls.Add(this.ConnectButton);
             this.Controls.Add(this.StartGameButton);
@@ -211,6 +224,7 @@
         private System.Windows.Forms.Button RockButton;
         private System.Windows.Forms.Label ModeLabel;
         private System.Windows.Forms.Button autobutton;
+        private System.Windows.Forms.Button DrawButton;
     }
 }
 
