@@ -45,6 +45,7 @@ namespace Client_HW4
         {
             StartGameButton.Enabled = false;
             sw.WriteLine(StartGameButton.Text);
+            ScoreLabel.Text = "score 0 : 0";
             try
             {
                 while (true)
@@ -79,6 +80,7 @@ namespace Client_HW4
         {
             ClientChoice.Text = (sender as Button).Text;
             sw.WriteLine(ClientChoice.Text);
+            StartGameButton.Enabled = true;
             ScissorButton.Enabled = PapperButton.Enabled = RockButton.Enabled = false;
         }
 

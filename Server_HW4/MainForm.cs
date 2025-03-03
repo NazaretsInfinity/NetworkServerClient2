@@ -44,15 +44,15 @@ namespace Server_HW4
                     if (response == "draw")
                         if (MessageBox.Show("Client offer an draw", "", MessageBoxButtons.OKCancel) == DialogResult.OK)
                         {
-                            sw.WriteLine("ok");
                             clientwin = serverwin = 0;
                             break;
                         }
+                    else response = sr.ReadLine();  // if we don't agree , he do new choice
 
                     this.Invoke(new Action(() => RockButton.Enabled = PapperButton.Enabled = ScissorButton.Enabled = true));
-                    SetRoundLabel("Round: " + rounds.ToString());
+                    SetRoundLabel("Round: " + rounds.ToString()); // round counting
 
-                    while (ServerChoice.Text == "...") Thread.Sleep(3000); // to wait before user choose smth 
+                    while (ServerChoice.Text == "...") Thread.Sleep(2000); // to wait before user choose smth 
                     this.Invoke(new Action(() => ClientChoice.Text = response));
 
                     if (ClientChoice.Text != ServerChoice.Text)
@@ -79,7 +79,7 @@ namespace Server_HW4
                 catch (Exception)
                 {
                     RockButton.Enabled = PapperButton.Enabled = ScissorButton.Enabled = false;
-                    RoundLabel.Text = "New Round";
+                    Setback();
                     return;
                 }
                 } 
@@ -92,14 +92,20 @@ namespace Server_HW4
 
         private void SetRoundLabel(string text) => this.Invoke(new Action(() => RoundLabel.Text = text));
         private void SetScoreLabel(string text) => this.Invoke(new Action(() => ScoreLabel.Text = text));
+
+        private void Setback()
+        {
+            SetRoundLabel("New round");
+            this.Invoke(new Action(() => ServerChoice.Text = ClientChoice.Text = "..."));
+        }
         private void ClientAcceptor(object a)
         {
 
             client = (a as TcpListener).AcceptTcpClient();
             NetworkStream stream = client.GetStream();
             sr = new StreamReader(stream); sw = new StreamWriter(stream) { AutoFlush = true };
-            while (client.Connected)
-            {      
+            while (client.Connected) // need to change prbbly 
+            {
                 response = sr.ReadLine();
                 if (response == "Start")
                 {
