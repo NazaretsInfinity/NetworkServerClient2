@@ -39,7 +39,7 @@
             this.PapperButton = new System.Windows.Forms.Button();
             this.RockButton = new System.Windows.Forms.Button();
             this.ModeLabel = new System.Windows.Forms.Label();
-            this.ModeComboBox = new System.Windows.Forms.ComboBox();
+            this.autobutton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ConnectButton
@@ -78,7 +78,7 @@
             // 
             this.ClientChoice.AutoSize = true;
             this.ClientChoice.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ClientChoice.ForeColor = System.Drawing.Color.SandyBrown;
+            this.ClientChoice.ForeColor = System.Drawing.Color.Peru;
             this.ClientChoice.Location = new System.Drawing.Point(296, 103);
             this.ClientChoice.Name = "ClientChoice";
             this.ClientChoice.Size = new System.Drawing.Size(41, 32);
@@ -156,29 +156,28 @@
             // 
             this.ModeLabel.AutoSize = true;
             this.ModeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ModeLabel.Location = new System.Drawing.Point(20, 12);
+            this.ModeLabel.Location = new System.Drawing.Point(20, 15);
             this.ModeLabel.Name = "ModeLabel";
             this.ModeLabel.Size = new System.Drawing.Size(73, 25);
             this.ModeLabel.TabIndex = 17;
             this.ModeLabel.Text = "Mode:";
             // 
-            // ModeComboBox
+            // autobutton
             // 
-            this.ModeComboBox.FormattingEnabled = true;
-            this.ModeComboBox.Items.AddRange(new object[] {
-            "client - client",
-            "computer - client",
-            "computer - computer"});
-            this.ModeComboBox.Location = new System.Drawing.Point(99, 12);
-            this.ModeComboBox.Name = "ModeComboBox";
-            this.ModeComboBox.Size = new System.Drawing.Size(178, 24);
-            this.ModeComboBox.TabIndex = 16;
+            this.autobutton.Location = new System.Drawing.Point(99, 16);
+            this.autobutton.Name = "autobutton";
+            this.autobutton.Size = new System.Drawing.Size(75, 23);
+            this.autobutton.TabIndex = 28;
+            this.autobutton.Text = "auto";
+            this.autobutton.UseVisualStyleBackColor = true;
+            this.autobutton.Click += new System.EventHandler(this.autobutton_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(489, 261);
+            this.Controls.Add(this.autobutton);
             this.Controls.Add(this.ConnectButton);
             this.Controls.Add(this.StartGameButton);
             this.Controls.Add(this.ScoreLabel);
@@ -190,7 +189,6 @@
             this.Controls.Add(this.PapperButton);
             this.Controls.Add(this.RockButton);
             this.Controls.Add(this.ModeLabel);
-            this.Controls.Add(this.ModeComboBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "MainForm";
             this.Text = "Client";
@@ -212,7 +210,7 @@
         private System.Windows.Forms.Button PapperButton;
         private System.Windows.Forms.Button RockButton;
         private System.Windows.Forms.Label ModeLabel;
-        private System.Windows.Forms.ComboBox ModeComboBox;
+        private System.Windows.Forms.Button autobutton;
     }
 }
 

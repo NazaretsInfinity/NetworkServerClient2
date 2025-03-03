@@ -28,7 +28,7 @@ namespace Client_HW4
         {
             try
             {
-                client = new TcpClient("178.44.205.171", 1302);
+                client = new TcpClient("127.0.0.1", 1302);
                 NetworkStream stream = client.GetStream();
                 sr = new StreamReader(stream); sw = new StreamWriter(stream) { AutoFlush = true };
 
@@ -80,6 +80,11 @@ namespace Client_HW4
             ClientChoice.Text = (sender as Button).Text;
             sw.WriteLine(ClientChoice.Text);
             ScissorButton.Enabled = PapperButton.Enabled = RockButton.Enabled = false;
+        }
+
+        private void autobutton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

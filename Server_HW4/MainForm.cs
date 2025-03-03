@@ -20,7 +20,7 @@ namespace Server_HW4
         TcpClient client = null;
         StreamReader sr = null; StreamWriter sw = null;
 
-
+        CancellationToken token = new CancellationToken();  
 
         public MainForm()
         {
@@ -35,42 +35,43 @@ namespace Server_HW4
         {
             int clientwin = 0; int serverwin = 0;
             SetScoreLabel("Score 0 : 0");
+                for (int rounds = 1; rounds <= 3; ++rounds)
+                {
+                    this.Invoke(new Action(() => RockButton.Enabled = PapperButton.Enabled = ScissorButton.Enabled = true));
+                    SetRoundLabel("Round: " + rounds.ToString());
 
-            for (int rounds = 1; rounds <= 3; ++rounds)
-            {
-                this.Invoke(new Action(() => RockButton.Enabled = PapperButton.Enabled = ScissorButton.Enabled = true));
-                SetRoundLabel("Round: " + rounds.ToString());
+                    while (ServerChoice.Text == "...") Thread.Sleep(3000); // to wait before user choose smth 
+                    this.Invoke(new Action(() => ClientChoice.Text = sr.ReadLine()));
 
-                while (ServerChoice.Text == "...") Thread.Sleep(3000); // to wait before user choose smth 
-                this.Invoke(new Action(() => ClientChoice.Text = sr.ReadLine()));
+                    if (ClientChoice.Text != ServerChoice.Text)
+                        switch (ServerChoice.Text)
+                        {
+                            case "Scissor":
+                                if (ClientChoice.Text == "Paper") ++serverwin;
+                                else ++clientwin;
+                                break;
+                            case "Papper":
+                                if (ClientChoice.Text == "Rock") ++serverwin;
+                                else ++clientwin;
+                                break;
+                            case "Rock":
+                                if (ClientChoice.Text == "Scissor") ++serverwin;
+                                else ++clientwin;
+                                break;
+                        }
+                    SetScoreLabel($"Score {serverwin} : {clientwin}"); Thread.Sleep(1000);
 
-                if (ClientChoice.Text != ServerChoice.Text)
-                    switch (ServerChoice.Text)
-                    {
-                        case "Scissor":
-                            if (ClientChoice.Text == "Paper") ++serverwin;
-                            else ++clientwin;
-                            break;
-                        case "Papper":
-                            if (ClientChoice.Text == "Rock") ++serverwin;
-                            else ++clientwin;
-                            break;
-                        case "Rock":
-                            if (ClientChoice.Text == "Scissor") ++serverwin;
-                            else ++clientwin;
-                            break;
-                    }
-                SetScoreLabel($"Score {serverwin} : {clientwin}"); Thread.Sleep(1000);
-
-                sw.WriteLine(ScoreLabel.Text);
-                this.Invoke(new Action(() => ClientChoice.Text = ServerChoice.Text = "..."));
-            }
+                    sw.WriteLine(ScoreLabel.Text);
+                    this.Invoke(new Action(() => ClientChoice.Text = ServerChoice.Text = "..."));
+                } 
 
             //setting who's the winner
             if (clientwin == serverwin) SetRoundLabel("Draw");
             else SetRoundLabel($"Winner: " + (clientwin > serverwin ? "Client" : "Server"));
 
             sw.WriteLine("End"); // to end client method  
+
+
         }
 
         private void SetRoundLabel(string text) => this.Invoke(new Action(() => RoundLabel.Text = text));
@@ -81,13 +82,16 @@ namespace Server_HW4
             client = (a as TcpListener).AcceptTcpClient();
             NetworkStream stream = client.GetStream();
             sr = new StreamReader(stream); sw = new StreamWriter(stream) { AutoFlush = true };
-            while (true)
-            {
-                string message = sr.ReadLine();
+            while (client.Connected)
+            {      
+                if(stream.DataAvailable)
+                { 
+                    string message = sr.ReadLine();
                 if (message == "Start")
                 {
                     Thread game = new Thread(Game);
                     game.Start(); game.Join();
+                }
                 }
             }
         }
