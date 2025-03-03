@@ -89,6 +89,6 @@ namespace Client_HW4
             Choice(buttons[rnd.Next(3)]);
         }
 
-        private void DrawButton_Click(object sender, EventArgs e) => sw.WriteLine("draw");
+        private void DrawButton_Click(object sender, EventArgs e) =>sw.WriteLine("draw");
     }
 }

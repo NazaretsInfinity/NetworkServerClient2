@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Server_HW4
 {
@@ -20,9 +19,9 @@ namespace Server_HW4
         TcpClient client = null;
         StreamReader sr = null; StreamWriter sw = null;
 
-        Task game;
-        CancellationToken token = new CancellationToken();  
-
+        string response;
+        Thread game;
+     
         public MainForm()
         {
 
@@ -36,13 +35,25 @@ namespace Server_HW4
         {
             int clientwin = 0; int serverwin = 0;
             SetScoreLabel("Score 0 : 0");
+            //rounds===========
                 for (int rounds = 1; rounds <= 3; ++rounds)
                 {
+                try
+                {
+                    response = sr.ReadLine();
+                    if (response == "draw")
+                        if (MessageBox.Show("Client offer an draw", "", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                        {
+                            sw.WriteLine("ok");
+                            clientwin = serverwin = 0;
+                            break;
+                        }
+
                     this.Invoke(new Action(() => RockButton.Enabled = PapperButton.Enabled = ScissorButton.Enabled = true));
                     SetRoundLabel("Round: " + rounds.ToString());
 
                     while (ServerChoice.Text == "...") Thread.Sleep(3000); // to wait before user choose smth 
-                    this.Invoke(new Action(() => ClientChoice.Text = sr.ReadLine()));
+                    this.Invoke(new Action(() => ClientChoice.Text = response));
 
                     if (ClientChoice.Text != ServerChoice.Text)
                         switch (ServerChoice.Text)
@@ -64,20 +75,24 @@ namespace Server_HW4
 
                     sw.WriteLine(ScoreLabel.Text);
                     this.Invoke(new Action(() => ClientChoice.Text = ServerChoice.Text = "..."));
+                }
+                catch (Exception)
+                {
+                    RockButton.Enabled = PapperButton.Enabled = ScissorButton.Enabled = false;
+                    RoundLabel.Text = "New Round";
+                    return;
+                }
                 } 
 
             //setting who's the winner
             if (clientwin == serverwin) SetRoundLabel("Draw");
             else SetRoundLabel($"Winner: " + (clientwin > serverwin ? "Client" : "Server"));
-
-            sw.WriteLine("End"); // to end client method  
-
-
+            sw.WriteLine("End"); 
         }
 
         private void SetRoundLabel(string text) => this.Invoke(new Action(() => RoundLabel.Text = text));
         private void SetScoreLabel(string text) => this.Invoke(new Action(() => ScoreLabel.Text = text));
-        private async void ClientAcceptor(object a)
+        private void ClientAcceptor(object a)
         {
 
             client = (a as TcpListener).AcceptTcpClient();
@@ -85,12 +100,12 @@ namespace Server_HW4
             sr = new StreamReader(stream); sw = new StreamWriter(stream) { AutoFlush = true };
             while (client.Connected)
             {      
-
-                    string message = sr.ReadLine();
-                if (message == "Start")
+                response = sr.ReadLine();
+                if (response == "Start")
                 {
-                        game = new Task(Game); game.Start();
-                        await game;
+                        game = new Thread(Game); 
+                        game.Start();
+                        game.Join();
                 }
                 
             }

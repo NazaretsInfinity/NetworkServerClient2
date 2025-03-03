@@ -133,9 +133,9 @@
             this.RoundLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.RoundLabel.Location = new System.Drawing.Point(12, 21);
             this.RoundLabel.Name = "RoundLabel";
-            this.RoundLabel.Size = new System.Drawing.Size(116, 25);
+            this.RoundLabel.Size = new System.Drawing.Size(122, 25);
             this.RoundLabel.TabIndex = 15;
-            this.RoundLabel.Text = "Rounds: ...";
+            this.RoundLabel.Text = "New Round";
             // 
             // MainForm
             // 
